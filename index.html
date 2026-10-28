@@ -3,269 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Ultimate Retro Arcade Cabinet</title>
+    <title>Arcade Game</title>
     <style>
-        :root {
-            --neon-blue: #00f0ff;
-            --neon-pink: #ff007f;
-            --neon-yellow: #ffea00;
-            --neon-green: #00ff66;
-            --cabinet-dark: #0c0c14;
-        }
-
-        body {
-            background-color: #040408;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            margin: 0;
-            padding: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            user-select: none;
-        }
-
-        .arcade-container {
-            display: flex;
-            background: linear-gradient(145deg, #151525, #05050b);
-            border: 4px solid var(--neon-blue);
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.25);
-            overflow: hidden;
-            max-width: 900px;
-            width: 100%;
-        }
-
-        .side-panel {
-            width: 140px;
-            background-color: var(--cabinet-dark);
-            border-right: 4px dashed var(--neon-pink);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            padding: 20px 5px;
-            box-sizing: border-box;
-        }
-
-        .arcade-logo {
-            writing-mode: vertical-rl;
-            text-transform: uppercase;
-            font-size: 2.2rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink);
-            letter-spacing: 6px;
-            transform: rotate(180deg);
-        }
-
-        .main-game-area {
-            flex-grow: 1;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        .hud {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 600px;
-            margin-bottom: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            padding: 8px;
-            border-radius: 6px;
-            border: 1px solid #222;
-            font-size: 0.9rem;
-        }
-
-        .player-status { width: 45%; }
-        .p1-title { color: var(--neon-blue); font-weight: bold; }
-        .p2-title { color: var(--neon-pink); font-weight: bold; }
-
-        .health-bar-container {
-            background-color: #222;
-            height: 10px;
-            border-radius: 5px;
-            margin-top: 4px;
-            overflow: hidden;
-            border: 1px solid #444;
-        }
-
-        .health-bar { height: 100%; width: 100%; transition: width 0.1s linear; }
-        #p1-health { background-color: var(--neon-blue); }
-        #p2-health { background-color: var(--neon-pink); }
-
-        .high-score-container {
-            text-align: center;
-            color: var(--neon-yellow);
-            font-weight: bold;
-            margin-bottom: 8px;
-            text-shadow: 0 0 5px rgba(255, 234, 0, 0.5);
-        }
-
-        .screen-container { position: relative; }
-        .screen-container::after {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
-            z-index: 5;
-            background-size: 100% 4px;
-            pointer-events: none;
-        }
-
-        canvas {
-            background-color: #020205;
-            border: 3px solid #222;
-            display: block;
-            border-radius: 4px;
-        }
-
-        .controls-guide {
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 600px;
-            font-size: 0.75rem;
-            color: #777;
-        }
+        :root { --blue: #00f0ff; --pink: #ff007f; --yellow: #ffea00; --green: #00ff66; }
+        body { background: #040408; color: #fff; font-family: monospace; margin: 0; padding: 5px; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow: hidden; user-select: none; -webkit-user-select: none; }
+        .cab { display: flex; background: #111122; border: 4px solid var(--blue); border-radius: 12px; max-width: 900px; width: 100%; box-shadow: 0 0 20px rgba(0,240,255,0.3); }
+        .side { width: 110px; background: #05050a; border-right: 4px dashed var(--pink); display: flex; flex-direction: column; align-items: center; justify-content: space-around; padding: 10px 0; }
+        .logo { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 1.8rem; font-weight: bold; text-shadow: 0 0 8px var(--pink); letter-spacing: 4px; }
+        .main { flex-grow: 1; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .hud { display: flex; justify-content: space-between; width: 100%; max-width: 550px; background: rgba(0,0,0,0.5); padding: 6px; border-radius: 6px; font-size: 0.85rem; border: 1px solid #222; }
+        .hp-bar { background: #222; height: 8px; border-radius: 4px; overflow: hidden; margin-top: 4px; width: 120px; border: 1px solid #444; }
+        .hp { height: 100%; width: 100%; transition: width 0.1s; }
+        #p1-hp { background: var(--blue); } #p2-hp { background: var(--pink); }
+        .hi { color: var(--yellow); font-weight: bold; margin-bottom: 5px; }
+        canvas { background: #020205; border: 2px solid #333; display: block; border-radius: 4px; touch-action: none; }
     </style>
 </head>
 <body>
-
-<div class="arcade-container">
-    <div class="side-panel">
-        <div style="font-size:1.5rem;">🕹️</div>
-        <div class="arcade-logo">B-COIN POOL</div>
-        <div style="font-size:1.5rem;">⚔️</div>
-    </div>
-
-    <div class="main-game-area">
-        <div class="high-score-container">👑 HI-SCORE: <span id="hi-score-val">0</span></div>
-        
+<div class="cab">
+    <div class="side"><div class="logo">B-COIN ARENA</div></div>
+    <div class="main">
+        <div class="hi">👑 HI-SCORE: <span id="hs">0</span></div>
         <div class="hud">
-            <div class="player-status" id="p1-hud">
-                <div class="p1-title">P1: <span id="p1-score">0</span> <span id="p1-status-icon"></span></div>
-                <div class="health-bar-container"><div id="p1-health" class="health-bar"></div></div>
-            </div>
-            <div class="player-status" id="p2-hud" style="text-align: right;">
-                <div class="p2-title">P2: <span id="p2-score">0</span> <span id="p2-status-icon"></span></div>
-                <div class="health-bar-container"><div id="p2-health" class="health-bar"></div></div>
-            </div>
+            <div><span style="color:var(--blue)">P1:</span> <span id="s1">0</span> <span id="i1"></span><div class="hp-bar"><div id="p1-hp" class="hp"></div></div></div>
+            <div><span style="color:var(--pink)">P2:</span> <span id="s2">0</span> <span id="i2"></span><div class="hp-bar"><div id="p2-hp" class="hp"></div></div></div>
         </div>
-
-        <div class="screen-container">
-            <canvas id="gameCanvas" width="600" height="420"></canvas>
-        </div>
-
-        <div class="controls-guide">
-            <div id="p1-label"><strong>P1:</strong> A/D to Move | Space to Fire</div>
-            <div>🌟 🪙=Points | 🛡️=Shield | 🔫/🚀=Weapons | 💣=Danger</div>
-            <div id="p2-label"><strong>P2:</strong> ⬅️/➡️ to Move | Enter to Fire</div>
-        </div>
+        <canvas id="g" width="560" height="400"></canvas>
     </div>
 </div>
-
 <script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-
-    // High Score Data Storage
-    let hiScore = localStorage.getItem('arcade_hiscore') || 0;
-    document.getElementById('hi-score-val').innerText = hiScore;
-
-    // Game Engine State Vectors
-    let gameState = "MENU"; // MENU, PLAYING, GAMEOVER
-    let isSoloMode = false;
-    let isPvPMode = false;
-    let items = [];
-    let projectiles = [];
-    let particles = [];
-    let spawnTimer = 0;
-    const keys = {};
-
-    const BASE_SPEED = 5;
-    const BOOST_SPEED = 9;
-
-    // Player Configuration Setup
-    const p1 = { x: 100, y: 370, width: 36, height: 36, color: '#00f0ff', score: 0, health: 100, speed: BASE_SPEED, shield: 0, magnet: 0, boost: 0, weapon: null, ammo: 0 };
-    const p2 = { x: 460, y: 370, width: 36, height: 36, color: '#ff007f', score: 0, health: 100, speed: BASE_SPEED, shield: 0, magnet: 0, boost: 0, weapon: null, ammo: 0 };
-
-    const itemTypes = {
-        COIN: { label: '🪙', points: 10, damage: 0, color: '#ffea00', type: 'COIN' },
-        BOMB: { label: '💣', points: 0, damage: 25, color: '#ff3333', type: 'BOMB' },
-        LASER_DROP: { label: '🔫', points: 5, damage: 0, color: '#00ffff', type: 'WEAPON_LASER' },
-        MISSILE_DROP: { label: '🚀', points: 5, damage: 0, color: '#ffea00', type: 'WEAPON_MISSILE' },
-        SHIELD: { label: '🛡️', points: 5, damage: 0, color: '#00f0ff', type: 'SHIELD' }
+    const c = document.getElementById('g'), ctx = c.getContext('2d');
+    let hs = localStorage.getItem('arc_hs') || 0; document.getElementById('hs').innerText = hs;
+    let state = "MENU", solo = true, pvp = false, items = [], projs = [], parts = [], timer = 0, keys = {};
+    const p1 = { x: 80, y: 290, w: 32, h: 32, c: '#00f0ff', score: 0, health: 100, speed: 5, shield: 0, magnet: 0, weapon: null, ammo: 0 };
+    const p2 = { x: 440, y: 290, w: 32, h: 32, c: '#ff007f', score: 0, health: 100, speed: 5, shield: 0, magnet: 0, weapon: null, ammo: 0 };
+    const types = {
+        C: { l: '🪙', p: 10, d: 0, c: '#ffea00', t: 'COIN' },
+        B: { l: '💣', p: 0, d: 25, c: '#ff3333', t: 'BOMB' },
+        S: { l: '🛡️', p: 5, d: 0, c: '#00f0ff', t: 'SHIELD' },
+        M: { l: '🧲', p: 5, d: 0, c: '#ffaa00', t: 'MAGNET' },
+        L: { l: '🔫', p: 5, d: 0, c: '#00ffff', t: 'W_L' },
+        R: { l: '🚀', p: 5, d: 0, c: '#ffea00', t: 'W_R' }
     };
-
-    window.addEventListener('keydown', e => { keys[e.code] = true; handleCombatInputs(e.code); });
+    const btns = {
+        l1: { x: 15, y: 345, w: 45, h: 40, l: "⬅️P1" }, r1: { x: 65, y: 345, w: 45, h: 40, l: "➡️P1" }, f1: { x: 115, y: 345, w: 50, h: 40, l: "💥F1" },
+        l2: { x: 380, y: 345, w: 45, h: 40, l: "⬅️P2" }, r2: { x: 430, y: 345, w: 45, h: 40, l: "➡️P2" }, f2: { x: 480, y: 345, w: 50, h: 40, l: "💥F2" }
+    };
+    window.addEventListener('keydown', e => { keys[e.code] = true; if(state==="MENU"){ if(e.code==="Digit1"){solo=true;pvp=false;start();} if(e.code==="Digit2"){solo=false;pvp=false;start();} if(e.code==="Digit3"){solo=false;pvp=true;start();} } else if(state==="PLAYING"&&pvp){ if(e.code==="Space"&&p1.health>0&&p1.weapon)fire(p1,1); if((e.code==="Enter"||e.code==="Numpad0")&&p2.health>0&&p2.weapon)fire(p2,-1); } else if(state==="GAMEOVER"&&(e.code==="Space"||e.code==="Enter"))menu(); });
     window.addEventListener('keyup', e => keys[e.code] = false);
-
-    // iPad Screen Tap Coordinates Vector Decoder
-    canvas.addEventListener('click', (e) => {
-        const rect = canvas.getBoundingClientRect();
-        const clickX = e.clientX - rect.left;
-        const clickY = e.clientY - rect.top;
-
-        if (gameState === "MENU") {
-            if (clickY > 170 && clickY < 220) {
-                if (clickX > 50 && clickX < 200) { isSoloMode = true; isPvPMode = false; startGame(); }
-                if (clickX > 220 && clickX < 370) { isSoloMode = false; isPvPMode = false; startGame(); }
-                if (clickX > 390 && clickX < 540) { isSoloMode = false; isPvPMode = true; startGame(); }
-            }
-        } else if (gameState === "GAMEOVER") {
-            if (clickX > 220 && clickX < 380 && clickY > 250 && clickY < 300) resetToMenu();
-        }
-    });
-
-    function resetToMenu() {
-        gameState = "MENU";
-        [p1, p2].forEach((p, idx) => {
-            p.score = 0; p.health = 100; p.x = idx === 0 ? 100 : 460;
-            p.shield = 0; p.weapon = null; p.ammo = 0; p.boost = 0; p.speed = BASE_SPEED;
-        });
-        items = []; projectiles = []; particles = [];
-        updateHUD();
-    }
-
-    function startGame() {
-        gameState = "PLAYING";
-        document.getElementById('p2-hud').style.opacity = isSoloMode ? '0.2' : '1';
-        document.getElementById('p2-label').style.opacity = isSoloMode ? '0.2' : '1';
-    }
-
-    function handleCombatInputs(code) {
-        if (gameState === "MENU") {
-            if (code === "Digit1") { isSoloMode = true; isPvPMode = false; startGame(); }
-            if (code === "Digit2") { isSoloMode = false; isPvPMode = false; startGame(); }
-            if (code === "Digit3") { isSoloMode = false; isPvPMode = true; startGame(); }
-        } else if (gameState === "PLAYING" && isPvPMode) {
-            if (code === "Space" && p1.health > 0 && p1.weapon) fireWeapon(p1, 1, p2);
-            if ((code === "Numpad0" || code === "Enter") && p2.health > 0 && p2.weapon) fireWeapon(p2, -1, p1);
-        } else if (gameState === "GAMEOVER" && (code === "Space" || code === "Enter")) {
-            resetToMenu();
+    function handleT(e) {
+        e.preventDefault(); const rect = c.getBoundingClientRect(); Object.values(btns).forEach(b => b.a = false);
+        for(let i=0; i<e.touches.length; i++) {
+            const t = e.touches[i], tx = t.clientX - rect.left, ty = t.clientY - rect.top;
+            if(state === "MENU" && ty > 150 && ty < 200) {
+                if(tx > 30 && tx < 170) { solo=true; pvp=false; start(); }
+                if(tx > 200 && tx < 340) { solo=false; pvp=false; start(); }
+                if(tx > 370 && tx < 510) { solo=false; pvp=true; start(); }
+            } else if(state === "GAMEOVER" && tx > 200 && tx < 360 && ty > 220 && ty < 270) { menu(); }
+            else if(state === "PLAYING") { Object.values(btns).forEach(b => { if(tx > b.x && tx < b.x + b.w && ty > b.y && ty < b.y + b.h) b.a = true; }); if(btns.f1.a && p1.health>0 && p1.weapon){ fire(p1,1); btns.f1.a=false; } if(!solo && btns.f2.a && p2.health>0 && p2.weapon){ fire(p2,-1); btns.f2.a=false; } }
         }
     }
-
-    function fireWeapon(player, direction, target) {
-        if (player.ammo <= 0) return;
-        player.ammo--;
-
-        projectiles.push({
-            x: direction === 1 ? player.x + player.width + 5 : player.x - 15,
-            y: player.y + player.height / 2,
-            vx: direction * (player.weapon === 'LASER' ? 9 : 5),
-            width: player.weapon === 'LASER' ? 14 : 20,
-            height: player.weapon === 'LASER' ? 4 : 8,
-            damage: player.weapon === 'LASER' ? 15 : 35,
-            color: player.color,
-            type: player.weapon,
-            owner: player
+    c.addEventListener('touchstart', handleT); c.addEventListener('touchmove', handleT); c.addEventListener('touchend', handleT);
+    function menu() { state = "MENU"; [p1,p2].forEach((p,i)=>{ p.score=0; p.health=100; p.x=i===0?80:440; p.shield=0; p.magnet=0; p.weapon=null; p.ammo=0; }); items=[]; projs=[]; parts=[]; hud(); }
+    function start() { state = "PLAYING"; }
+    function fire(p, dir) { if(p.ammo<=0)return; p.ammo--; projs.push({ x: dir===1?p.x+p.w+4:p.x-12, y: p.y+p.h/2, vx: dir*(p.weapon==='LASER'?8:5), w: p.weapon==='LASER'?12:18, h: p.weapon==='LASER'?4:6, dmg: p.weapon==='LASER'?15:35, c: p.c, o: p }); if(p.ammo<=0)p.weapon=null; hud(); }
+    function exp(x, y, color) { for(let i=0; i<8; i++) parts.push({ x: x, y: y, vx: (Math.random()-0.5)*4, vy: (Math.random()-0.5)*4, r: Math.random()*2+1, c: color, a: 1 }); }
+    function update() {
+        if(state !== "PLAYING") return;
+        if((keys['KeyA']||btns.l1.a) && p1.x > 5) p1.x -= p1.speed; if((keys['KeyD']||btns.r1.a) && p1.x < c.width - p1.w - 5) p1.x += p1.speed;
+        if(!solo && p2.health > 0) { if((keys['ArrowLeft']||btns.l2.a) && p2.x > 5) p2.x -= p2.speed; if((keys['ArrowRight']||btns.r2.a) && p2.x < c.width - p2.w - 5) p2.x += p2.speed; }
+        for(let i=projs.length-1; i>=0; i--) {
+            let p = projs[i]; p.x += p.vx; if(p.x<0 || p.x>c.width) { projs.splice(i,1); continue; }
+            let ts = pvp ? [p1,p2] : []; ts.forEach(t => { if(t!==p.o && t.health>0 && p.x>t.x && p.x<t.x+t.w && p.y>t.y && p.y<t.y+t.h) { exp(p.x,p.y,'#fff'); if(t.shield>0) t.shield--; else t.health=Math.max(0,t.health-p.dmg); projs.splice(i,1); hud(); } });
+        }
+        timer++; if(timer % 50 === 0) { let pool = Object.values(types); if(!pvp) pool = pool.filter(t=>!t.t.startsWith('W')); items.push({ x: Math.random()*(c.width-40)+20, y: -10, s: Math.random()*2+2, type: pool[Math.floor(Math.random()*pool.length)] }); }
+        for(let i=items.length-1; i>=0; i--) {
+            let item = items[i]; item.y += item.s;
+            [p1,p2].forEach((p,idx) => { if(idx===1&&solo)return; if(p.magnet>0&&p.health>0&&item.type.t!=='BOMB') { let dx=(p.x+p.w/2)-item.x, dy=(p.y+p.h/2)-item.y, d=Math.sqrt(dx*dx+dy*dy); if(d<120) { item.x+=dx/d*2; item.y+=dy/d*0.5; } } });
+            [p1,p2].forEach((p,idx) => { if(idx===1&&solo)return; if(p.health>0&&item.x>p.x&&item.x<p.x+p.w&&item.y>p.y&&item.y<p.y+p.h) { hit(p,item.type,idx===0?'1':'2'); items.splice(i,1); } });
+            if(item&&item.y>c.height) items.splice(i,1);
+        }
+        for(let i=parts.length-1; i>=0; i--) { let p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.a-=0.03; if(p.a<=0) parts.splice(i,1); }
+        let cm = pvp ? 0 : (solo ? p1.score : Math.max(p1.score,p2.score)); if(cm > hs) { hs = cm; localStorage.setItem('arc_hs', hs); document.getElementById('hs').innerText = hs; }
+        if(p1.health<=0 && (solo || p2.health<=0 || pvp)) state = "GAMEOVER";
+    }
+    function hit(p, t, pref) {
+        exp(p.x+p.w/2, p.y+p.h/2, t.c);
+        if(t.t==='BOMB') { if(p.shield>0)p.shield--; else p.health=Math.max(0,p.health-t.d); }
+        else if(t.t==='COIN') p.score+=t.p;
+        else if(t.t==='SHIELD') p.shield++;
+        else if(t.t==='MAGNET') p.magnet=250;
+        else if(t.t==='W_L') { p.weapon='LASER'; p.ammo=6; }
+        else if(t.t==='W_R') { p.weapon='MISSILE'; p.ammo=3; }
+        hud();
+    }
+    function hud() {
+        document.getElementById('s1').innerText=p1.score; document.getElementById('s2').innerText=p2.score;
+        document.getElementById('p1-hp').style.width=p1.health+'%'; document.getElementById('p2-hp').style.width=p2.health+'%';
+        [p1,p2].forEach((p,i)=>{ let s=''; if(p.shield>0)s+='🛡️'; if(p.magnet>0)s+='🧲'; if(p.weapon)s+=(p.weapon==='LASER'?'🔫':'🚀')+'x'+p.ammo; document.getElementById('i'+(i+1)).innerText=s; });
+    }
+    function draw() {
+        ctx.clearRect(0,0,c.width,c.height);
+        if(state === "MENU") {
+            ctx.fillStyle="#fff"; ctx.textAlign="center"; ctx.font="bold 16px monospace"; ctx.fillText("SELECT SYSTEM MODE", c.width/2, 80);
+            const ms = [{x:30,l:"1: SOLO",col:"var(--blue)"},{x:200,l:"2: CO-OP",col:"var(--pink)"},{x:370,l:"3: PVP COMBAT",col:"var(--yellow)"}];
+            ms.forEach(m=>{ ctx.strokeStyle=m.col; ctx.strokeRect(m.x,140,140,45); ctx.fillStyle="#fff"; ctx.fillText(m.l,m.x+70,168); });
+        } else {
+            if(p1.health>0) { ctx.fillStyle=p1.c; ctx.fillRect(p1.x,p1.y,p1.w,p1.h); if(p1.shield>0){ctx.strokeStyle='#fff';ctx.strokeRect(p1.x-2,p1.y-2,p1.w+4,p1.h+4);} }
